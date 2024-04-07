@@ -35,7 +35,7 @@ jobs:
 
             - name: Run Test
               run: |
-                OUTPUT = $(docker run vaibhavittan/ml_container:latest)
+                OUTPUT=$(docker run vaibhavittan/ml_container:latest)
                 echo "Score:"
                 echo "$OUTPUT"
                 if [[ `echo "$OUTPUT 0.30" | awk '{print ($1 < $2)}'` == 1 ]]; then echo "Insufficient Accuracy" && exit 1; fi
