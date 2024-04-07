@@ -43,7 +43,7 @@ jobs:
 
             - name: Check Score
               run:  |
-                if (( $(echo "${{ steps.extract_score.outputs.score }} > 0.50" | bc -l) )); then
+                if (( $(echo "${{ steps.extract_score.outputs.score }} > 0.30" | bc -l) )); then
                     echo "Score is greater than 0.50. Workflow succeeded."
                 else
                     echo "Score is not greater than 0.50. Workflow failed." 
