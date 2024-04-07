@@ -34,20 +34,21 @@ jobs:
               run: docker pull vaibhavittan/ml_container:latest
 
             - name: Run Test
-              run: docker run vaibhavittan/ml_container:latest
+              run: docker run vaibhavittan/ml_container:latest > output.txt
               id: container_output
 
-            - name: Extract score
-              run: |
-                score=$(echo "${{ steps.container_output.outputs.stdout }}" | grep -oP '(?<=Score: )[0-9.]+')
-                echo "::set-output name=score::$score"
-              id: extract_score
+            # - name: Extract score
+            #   run: |
+            #     score=$(echo "${{ steps.container_output.outputs.stdout }}" | grep -oP '(?<=Score: )[0-9.]+')
+            #     echo "::set-output name=score::$score"
+            #   id: extract_score
 
             - name: Check Score
               run:  |
-                if (( $(echo "${{ steps.extract_score.outputs.score }} > 0.30" | bc -l) )); then
-                    echo "Score is greater than 0.30. Workflow succeeded."
+                score=$(grep -oP '(?<=Score: )[0-9.]+' output.txt)
+                if (( $(echo "$score > 0.50" | bc -l) )); then
+                  echo "Score is greater than 0.50. Workflow succeeded."
                 else
-                    echo "Score is not greater than 0.30. Workflow failed." 
-                    exit 1
+                  echo "Score is not greater than 0.50. Workflow failed."
+                  exit 1
                 fi
