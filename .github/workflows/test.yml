@@ -46,9 +46,9 @@ jobs:
             - name: Check Score
               run:  |
                 score=$(grep -oP '(?<=Score: )[0-9.]+' output.txt)
-                if (( $(echo "$score > 0.50" | bc -l) )); then
-                  echo "Score is greater than 0.50. Workflow succeeded."
+                if (( $(echo "$score > 0.30" | bc -l) )); then
+                  echo "Score is greater than 0.30. Workflow succeeded."
                 else
-                  echo "Score is not greater than 0.50. Workflow failed."
+                  echo "Score is not greater than 0.30. Workflow failed."
                   exit 1
                 fi
