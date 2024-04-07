@@ -34,7 +34,7 @@ jobs:
               run: docker pull vaibhavittan/ml_container:latest
 
             - name: Run Test
-              run: docker run vaibhavittan/ml_container:latest > output.txt
+              run: docker run vaibhavittan/ml_container:latest
               id: container_output
 
             # - name: Extract score
@@ -45,8 +45,7 @@ jobs:
 
             - name: Check Score
               run:  |
-                score=$(grep -oP '(?<=Score: )[0-9.]+' output.txt)
-                if (( $(echo "$score > 0.30" | bc -l) )); then
+                if ((echo ${{ steps.container_output.outputs.stdout }} > 0.30" | bc -l) )); then
                   echo "Score is greater than 0.30. Workflow succeeded."
                 else
                   echo "Score is not greater than 0.30. Workflow failed."
