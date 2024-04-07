@@ -8,8 +8,9 @@ X = df.drop(columns=['Disease']).to_numpy()
 y = df['Disease'].to_numpy()
 labels = np.sort(np.unique(y))
 y = np.array([np.where(labels == x) for x in y]).flatten()
+X_noisy = X + np.random.normal(0, 10.0, X.shape)
 
-model = LogisticRegression().fit(X, y)
+model = LogisticRegression().fit(X_noisy, y)
 
 with open("model.pkl", 'wb') as f:
     pickle.dump(model, f)
